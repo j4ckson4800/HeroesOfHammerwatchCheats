@@ -52,11 +52,6 @@ namespace utilities::memory {
 		const auto addresses = reinterpret_cast<uint32_t*>(rva_2_offset(exports->AddressOfFunctions, nt_headers, in_memory) + module);
 		return rva_2_offset(addresses[ordinals[ordinal_index]], nt_headers, in_memory) + module;
 	}
-	extern auto find_hud_element(fnv::hash name) -> void*;
-	template<class hudclass>
-	inline static auto find_hud_element(fnv::hash name)->hudclass* {
-		return reinterpret_cast<hudclass*>(find_hud_element(name));
-	}
 	template <std::size_t index, typename return_type, typename... function_args>
 	inline static auto get_virtual(void* instance, function_args&& ... args) -> return_type {
 		return ((*reinterpret_cast<return_type(__thiscall***)(void*, function_args...)>(instance))[index])(instance, std::forward<function_args>(args)...);
